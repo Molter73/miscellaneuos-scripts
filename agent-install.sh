@@ -1,6 +1,6 @@
 # Compiling Wazuh manager
-cd /home/vagrant/git/wazuh/src && git checkout 3.12
-make deps && make TARGET=agent DEBUG=1
+cd /home/vagrant/git/wazuh/src && git checkout stable
+make -j$(nproc) deps && make -j$(nproc) TARGET=agent DEBUG=1
 
 # Configure Wazuh for unattended installation
 cd ../etc/
@@ -22,8 +22,8 @@ cd ../ && ./install.sh
 
 # clean-up
 cd ../ && chown -R vagrant:vagrant wazuh/*
-git checkout -- .
-make clean-deps && make clean
+cd wazuh/ && git checkout -- .
+cd src/ && make clean-deps && make clean
 
 # Register and start agent
 /var/ossec/bin/agent-auth -m 192.168.50.20

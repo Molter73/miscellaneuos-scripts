@@ -7,7 +7,7 @@ cat /vagrant/rsync-key.pub >> authorized_keys
 # Update and install required tools
 apt-get update
 apt-get install -y python gcc make libc6-dev curl policycoreutils automake autoconf libtool git
-apt-get install -y cmake libcmocka0 libcmocka-dev lcov gdb
+apt-get install -y cmake libcmocka0 libcmocka-dev lcov gdb valgrind clang-tools-9
 
 # Clone repos and remove unnecesary folders
 echo "Cloning repos..."

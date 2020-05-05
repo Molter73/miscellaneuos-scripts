@@ -1,6 +1,6 @@
 # Compiling Wazuh manager
-cd /home/vagrant/git/wazuh/src && git checkout 3.12
-make deps && make TARGET=server DEBUG=1
+cd /home/vagrant/git/wazuh/src && git checkout stable
+make -j$(nproc) deps && make -j$(nproc) TARGET=server DEBUG=1
 
 # Configure Wazuh for unattended installation
 cd ../etc
@@ -23,5 +23,5 @@ cd ../ && ./install.sh
 
 # clean-up
 cd ../ && chown -R vagrant:vagrant wazuh/*
-git checkout -- .
+cd wazuh/ && git checkout -- .
 cd src/ && make clean-deps && make clean
