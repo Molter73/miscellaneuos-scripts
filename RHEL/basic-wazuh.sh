@@ -5,8 +5,12 @@ cat /vagrant/id_rsa.pub >> authorized_keys
 cat /vagrant/rsync-key.pub >> authorized_keys
 
 # Update and install required tools
-yum install -y gcc make policycoreutils-python automake autoconf libtool git
-yum install -y cmake3 libcmocka libcmocka-devel lcov gdb valgrind nano
+yum install -y epel-release
+yum install -y gcc make policycoreutils-python automake autoconf libtool git \
+               cmake3 libcmocka libcmocka-devel lcov gdb valgrind nano \
+               python36 python36-pip python36-devel \
+               which sudo wget
+yum groupinstall -y "Development Tools"
 
 # Clone repos and remove unnecesary folders
 echo "Cloning repos..."
