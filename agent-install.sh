@@ -27,4 +27,10 @@ cd src/ && make clean-deps && make clean
 
 # Register and start agent
 /var/ossec/bin/agent-auth -m 192.168.50.20
-/var/ossec/bin/ossec-control start
+# Register and start agent
+/var/ossec/bin/agent-auth -m 192.168.50.20
+if [ -f /var/ossec/bin/wazuh-control ] ; then
+    /var/ossec/bin/wazuh-control start
+else
+    /var/ossec/bin/ossec-control start
+fi
