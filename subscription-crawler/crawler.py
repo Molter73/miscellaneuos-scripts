@@ -1,14 +1,13 @@
 import os
 import json
 import requests
-import aiohttp
-import asyncio
 
 
 class Crawler:
     def __init__(self, offline_token: str):
         self.token = self.get_refresh_token(offline_token)['access_token']
         self.api_url = 'https://api.access.redhat.com/management/v1'
+        self.crawled_repos = []
 
         self.headers = {
             'Authorization': f'Bearer {self.token}',
@@ -32,50 +31,82 @@ class Crawler:
 
         return r.json()
 
-    def get_subscriptions(self) -> list:
+    def paginate_request(self, endpoint: str):
         limit = 50
         offset = 0
         count = 50
+        params = {
+            'limit': limit,
+            'offset': offset
+        }
 
         while count >= limit:
-            params = {
-                'limit': limit,
-                'offset': offset
-            }
-            r = requests.get(self.query_url('/subscriptions'),
-                             headers=self.headers, params=params)
-            r.raise_for_status()
+            resp = requests.get(self.query_url(endpoint),
+                                headers=self.headers, params=params)
 
-            response = r.json()
+            if not resp.ok:
+                print(resp)
+                break
+
+            response = resp.json()
 
             count = response['pagination']['count']
             offset += count
             yield response['body']
 
-    async def get_content_sets(self, subscriptions: list):
+    def get_subscriptions(self) -> list:
+        print('subscriptions')
+        return self.paginate_request('/subscriptions')
+
+    def get_content_sets(self, subscriptions: list):
+        print('content sets')
         for subscription in subscriptions:
             subscription_number = subscription['subscriptionNumber']
-            url = self.query_url(
-                f'/subscriptions/{subscription_number}/contentSets')
-            print(f'Querying {url}')
-            async with self.session.get(url, headers=self.headers) as resp:
-                # await resp.json()
-                print(resp.status)
+            return self.paginate_request(f'/subscriptions/{subscription_number}/contentSets')
 
+    def get_packages(self, content_sets):
+        print('packages')
+        for content_set in content_sets:
+            repo = content_set["label"]
+            print(f'################ {repo} ################')
+            if repo in self.crawled_repos:
+                print(f'Skipping duplicated repository - {repo}')
+                continue
 
-    async def crawl(self):
-        async with aiohttp.ClientSession() as self.session:
-            tasks = []
-            for subscriptions in self.get_subscriptions():
-                tasks.append(asyncio.ensure_future(self.get_content_sets(subscriptions)))
+            self.crawled_repos.append(repo)
 
-            print("All subscriptions crawled")
-            await asyncio.gather(*tasks)
+            if 'arch' not in content_set:
+                print(f'No arch - Skipping {content_set}')
+                continue
+
+            if content_set['arch'] != 'x86_64':
+                print(f'Unwanted arch - Skipping {content_set}')
+                continue
+
+            for packages in self.paginate_request(f'/packages/cset/{repo}/arch/x86_64'):
+                self.filter_kernel_headers(packages)
+
+    def filter_kernel_headers(self, packages):
+        for pkg in packages:
+            if pkg['name'] != 'kernel-devel':
+                continue
+
+            kernel = f'kernel-devel-{pkg["version"]}-{pkg["release"].x86_64}'
+            print(kernel)
+
+    def crawl(self):
+        for subscriptions in self.get_subscriptions():
+            for content_sets in self.get_content_sets(subscriptions):
+                self.get_packages(content_sets)
+
+        print("All subscriptions crawled")
 
 
 if __name__ == '__main__':
+    # Go to https://access.redhat.com/management/api to get a token
+    # and supply it as an environment variable.
     token = os.getenv('API_TOKEN')
 
     crawler = Crawler(token)
 
-    asyncio.run(crawler.crawl())
+    crawler.crawl()
