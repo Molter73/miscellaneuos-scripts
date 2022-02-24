@@ -2,6 +2,8 @@ import os
 import json
 import requests
 import re
+import time
+
 
 class Crawler:
     def __init__(self, offline_token: str):
@@ -11,6 +13,7 @@ class Crawler:
         self.exclude_patterns = [
             re.compile(r'^.*-devtools-.*$'),
             re.compile(r'^.*-debug-.*$'),
+            re.compile(r'^.*-source-.*$'),
             re.compile(r'^codeready-builder-.*$')
         ]
 
@@ -55,6 +58,12 @@ class Crawler:
             resp = requests.get(self.query_url(endpoint),
                                 headers=self.headers, params=params)
 
+            if resp.status_code == 429:
+                print(f'Rate limit exceeded, wait and retry...')
+                time.sleep(int(resp.headers['x-ratelimit-delay']))
+                resp = requests.get(self.query_url(endpoint),
+                                    headers=self.headers, params=params)
+
             if not resp.ok:
                 print(resp)
                 break
@@ -63,21 +72,17 @@ class Crawler:
 
             count = response['pagination']['count']
             offset += count
-            print(f'################ Entries crawled: {offset}')
             yield response['body']
 
     def get_subscriptions(self) -> list:
-        print('subscriptions')
-        return self.paginate_request('/subscriptions')
+        yield from self.paginate_request('/subscriptions')
 
     def get_content_sets(self, subscriptions: list):
-        print('content sets')
         for subscription in subscriptions:
             subscription_number = subscription['subscriptionNumber']
-            return self.paginate_request(f'/subscriptions/{subscription_number}/contentSets')
+            yield from self.paginate_request(f'/subscriptions/{subscription_number}/contentSets')
 
     def get_packages(self, content_sets):
-        print('packages')
         for content_set in content_sets:
             repo = content_set["label"]
             print(f'################ {repo} ################')
@@ -95,7 +100,7 @@ class Crawler:
                 print(f'No arch - Skipping {content_set}')
                 continue
 
-            if content_set['arch'] != 'x86_64':
+            if 'x86_64' not in content_set['arch']:
                 print(f'Unwanted arch - Skipping {content_set}')
                 continue
 
