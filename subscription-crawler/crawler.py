@@ -1,13 +1,18 @@
 import os
 import json
 import requests
-
+import re
 
 class Crawler:
     def __init__(self, offline_token: str):
         self.token = self.get_refresh_token(offline_token)['access_token']
         self.api_url = 'https://api.access.redhat.com/management/v1'
         self.crawled_repos = []
+        self.exclude_patterns = [
+            re.compile(r'^.*-devtools-.*$'),
+            re.compile(r'^.*-debug-.*$'),
+            re.compile(r'^codeready-builder-.*$')
+        ]
 
         self.headers = {
             'Authorization': f'Bearer {self.token}',
@@ -16,6 +21,12 @@ class Crawler:
 
     def query_url(self, endpoint: str):
         return f'{self.api_url}{endpoint}'
+
+    def exclude_repo(self, repo):
+        for pattern in self.exclude_patterns:
+            if pattern.match(repo):
+                return True
+        return False
 
     def get_refresh_token(self, offline_token: str) -> dict:
         url = 'https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token'
@@ -32,15 +43,15 @@ class Crawler:
         return r.json()
 
     def paginate_request(self, endpoint: str):
-        limit = 50
+        limit = 100
         offset = 0
-        count = 50
-        params = {
-            'limit': limit,
-            'offset': offset
-        }
+        count = 100
 
         while count >= limit:
+            params = {
+                'limit': limit,
+                'offset': offset
+            }
             resp = requests.get(self.query_url(endpoint),
                                 headers=self.headers, params=params)
 
@@ -52,6 +63,7 @@ class Crawler:
 
             count = response['pagination']['count']
             offset += count
+            print(f'################ Entries crawled: {offset}')
             yield response['body']
 
     def get_subscriptions(self) -> list:
@@ -75,6 +87,10 @@ class Crawler:
 
             self.crawled_repos.append(repo)
 
+            if self.exclude_repo(repo):
+                print(f'Skipping {repo}')
+                continue
+
             if 'arch' not in content_set:
                 print(f'No arch - Skipping {content_set}')
                 continue
@@ -91,7 +107,7 @@ class Crawler:
             if pkg['name'] != 'kernel-devel':
                 continue
 
-            kernel = f'kernel-devel-{pkg["version"]}-{pkg["release"].x86_64}'
+            kernel = f'kernel-devel-{pkg["version"]}-{pkg["release"]}.x86_64'
             print(kernel)
 
     def crawl(self):
