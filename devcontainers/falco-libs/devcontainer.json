@@ -1,0 +1,17 @@
+{
+	"name": "falco-dev",
+	"dockerFile": "./Dockerfile",
+	"containerEnv": {
+		"DISABLE_PROFILING": "true"
+	},
+	"mounts": [
+		"source=/usr/src,target=/host/usr/src,type=bind,ro",
+		"source=/lib/modules,target=/host/lib/modules,type=bind,ro"
+	],
+	"extensions": [
+		"ms-vscode.cmake-tools",
+		"twxs.cmake",
+		"llvm-vs-code-extensions.vscode-clangd",
+		"eamodio.gitlens"
+	]
+}
