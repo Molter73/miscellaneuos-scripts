@@ -14,6 +14,8 @@ class Crawler:
             re.compile(r'^.*-devtools-.*$'),
             re.compile(r'^.*-debug-.*$'),
             re.compile(r'^.*-source-.*$'),
+            re.compile(r'^.*-optional-.*$'),
+            re.compile(r'^.*-appstream-.*$'),
             re.compile(r'^codeready-builder-.*$')
         ]
 
