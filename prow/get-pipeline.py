@@ -21,18 +21,22 @@ def get_statuses(statuses_url: str) -> dict:
     return response.json()
 
 
-def get_prow_url(statuses: list, stage: str) -> str:
+def get_prow_params(statuses: list, stage: str) -> str:
     for status in statuses:
-        if stage == status['context'].split('/')[-1] and status['target_url'] is not None:
-            return status['target_url']
+        if status['target_url'] is None:
+            continue
+        if stage == status['context'].split('/')[-1]:
+            prow_components = status['target_url'].split('/')
+
+            result = {
+                'id': prow_components[-1],
+                'job': prow_components[-2]
+            }
+            return result
 
 
-def get_build_log(prow_url: str):
-    # Adjust the URL
-    raw_log_url = prow_url.removeprefix('https://prow.ci.openshift.org/view/gs/')
-    raw_log_url = f'https://storage.googleapis.com/{raw_log_url}/build-log.txt'
-
-    response = requests.get(raw_log_url)
+def get_build_log(params: dict):
+    response = requests.get('https://prow.ci.openshift.org/log', params=params)
     response.raise_for_status()
 
     return response.text
@@ -53,8 +57,8 @@ def main(pr: str, stage: str):
     pr_data = get_pull_data(pr)
     statuses_url = pr_data['statuses_url']
     statuses = get_statuses(statuses_url)
-    prow_url = get_prow_url(statuses, stage)
-    prow_log = get_build_log(prow_url)
+    prow_params = get_prow_params(statuses, stage)
+    prow_log = get_build_log(prow_params)
 
     print(f'{find_registry(prow_log)}')
 
