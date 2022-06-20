@@ -5,13 +5,55 @@ import requests
 import re
 
 
-def get_pull_data(pr: str) -> dict():
-    url = f'https://api.github.com/repos/openshift/release/pulls/{pr}'
+API_BASE_URL = 'https://api.github.com'
 
-    response = requests.get(url)
-    response.raise_for_status()
 
-    return response.json()
+class Requester:
+    def __init__(self, org, repo):
+        self.org = org
+        self.repo = repo
+        self.params = {
+            'Accept': 'application/vnd.github.v3+json'
+        }
+
+    def get_commit(self, branch: str) -> str:
+        """
+        Gets the head commit of the given branch
+        """
+        url = f'{API_BASE_URL}/repos/{self.org}/{self.repo}/branches/{branch}'
+
+        response = requests.get(url, params=self.params)
+        response.raise_for_status()
+
+        return response.json()['commit']['sha']
+
+    def get_pr(self, commit: str) -> int:
+        """
+        Gets the PR number associated with a given commit
+        """
+        url = f'{API_BASE_URL}/repos/{self.org}/{self.repo}/commits/{commit}/pulls'
+
+        response = requests.get(url, params=self.params)
+        response.raise_for_status()
+
+        prs = response.json()
+        pr = prs[0]['url']
+        if len(prs) != 1:
+            print(f'Multiple PRs detected, using {pr}')
+
+        return pr
+
+    def get_pull_data(self, branch: str) -> dict:
+        """
+        Get PR data associated to a given branch
+        """
+        commit = self.get_commit(branch)
+        url = self.get_pr(commit)
+
+        response = requests.get(url)
+        response.raise_for_status()
+
+        return response.json()
 
 
 def get_statuses(statuses_url: str) -> dict:
@@ -53,8 +95,8 @@ def find_registry(prow_log: str):
             return f'registry.{farm[1]}.ci.openshift.org/{farm[2]}/pipeline'
 
 
-def main(pr: str, stage: str):
-    pr_data = get_pull_data(pr)
+def main(requester: Requester, branch: str, stage: str):
+    pr_data = requester.get_pull_data(branch)
     statuses_url = pr_data['statuses_url']
     statuses = get_statuses(statuses_url)
     prow_params = get_prow_params(statuses, stage)
@@ -68,8 +110,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=description,
                                      formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('pr', help='PR number to find pipeline from', default='29021')
+    parser.add_argument('organization', help='GH organization')
+    parser.add_argument('repo', help='GH repository')
+    parser.add_argument('branch', help='Branch we are searching for')
     parser.add_argument('stage', help='Stage to pipeline for', default='images')
     args = parser.parse_args()
 
-    main(args.pr, args.stage)
+    org = args.organization
+    repo = args.repo
+    branch = args.branch
+    stage = args.stage
+
+    requester = Requester(org, repo)
+
+    main(requester, branch, stage)
