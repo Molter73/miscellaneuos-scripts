@@ -36,11 +36,15 @@ Plug 'nvim-lualine/lualine.nvim'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 Plug 'nvim-telescope/telescope.nvim'
 
 " GitGutter
 Plug 'airblade/vim-gitgutter'
+
+" Git Blamer
+Plug 'APZelos/blamer.nvim'
 
 call plug#end()
 
