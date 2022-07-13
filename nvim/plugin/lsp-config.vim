@@ -36,6 +36,8 @@ local opts = {
 }
 
 require('rust-tools').setup(opts)
+nvim_lsp.yamlls.setup({})
+nvim_lsp.clangd.setup({})
 END
 
 
