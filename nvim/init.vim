@@ -24,7 +24,7 @@ filetype plugin indent on   " Allow auto-indenting depending on file type
 syntax on
 " set spell " enable spell check (may need to download language package)
 set ttyfast " Speed up scrolling in Vim
-set list lcs=tab:=>\ ,trail:·,precedes:<,extends:>,multispace:·,nbsp:○
+set list lcs=tab:==>,trail:·,precedes:<,extends:>,multispace:·,nbsp:○
 set updatetime=200
 let mapleader = ","
 set nohls
@@ -82,3 +82,17 @@ call plug#end()
 set background=dark
 set termguicolors
 colorscheme nightfly
+
+function! <SID>StripTrailingWhitespaces()
+  if !&binary && &filetype != 'diff'
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    keeppatterns %s/\n*\%$//
+    call winrestview(l:save)
+  endif
+endfun
+
+augroup MOLTER
+    autocmd!
+    autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+augroup END
