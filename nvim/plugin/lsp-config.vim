@@ -37,7 +37,20 @@ local opts = {
 
 require('rust-tools').setup(opts)
 nvim_lsp.yamlls.setup({})
-nvim_lsp.clangd.setup({})
+
+-- clangd setup
+nvim_lsp.clangd.setup({
+    cmd = {
+      "clangd",
+      "--background-index",
+      "--suggest-missing-includes",
+      "--clang-tidy",
+      "--completion-style=bundled",
+      "--header-insertion=iwyu"
+    },
+})
+
+nvim_lsp.cmake.setup({})
 END
 
 
@@ -77,4 +90,3 @@ cmp.setup({
 })
 
 END
-
