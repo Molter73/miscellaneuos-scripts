@@ -26,7 +26,7 @@ syntax on
 set ttyfast " Speed up scrolling in Vim
 set list lcs=tab:==>,trail:·,precedes:<,extends:>,multispace:·,nbsp:○
 set updatetime=200
-let mapleader = ","
+let mapleader = " "
 set nohls
 
 call plug#begin()
@@ -96,3 +96,8 @@ augroup MOLTER
     autocmd!
     autocmd FileType * autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END
+
+" Remaps
+:nnoremap <Leader>ej <cmd>Ex<cr>
+:nnoremap <Leader>ev <cmd>Vex<cr>
+:nnoremap <Leader>eh <cmd>Sex<cr>
