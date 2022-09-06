@@ -33,6 +33,7 @@ docker run --rm -id \
     -v /usr/include/bpf:/usr/include/bpf:ro \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /dev:/dev:ro \
+    -w "$FALCO_DIR" \
     --privileged \
     --name "$FALCO_BUILDER" \
     falco-builder:"$FLAVOR"
