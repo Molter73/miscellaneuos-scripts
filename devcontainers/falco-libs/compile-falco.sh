@@ -18,6 +18,7 @@ function configure () {
     cmake \
         -DBUILD_BPF=ON \
         -DUSE_BUNDLED_DEPS=OFF \
+        -DUSE_BUNDLED_VALIJSON=ON \
         -DCMAKE_BUILD_TYPE=Debug \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -S "${FALCO_DIR}" \
