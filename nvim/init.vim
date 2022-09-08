@@ -77,6 +77,9 @@ Plug 'airblade/vim-gitgutter'
 " Git Blamer
 Plug 'APZelos/blamer.nvim'
 
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
 call plug#end()
 
 set background=dark
