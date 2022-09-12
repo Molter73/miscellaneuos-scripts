@@ -1,4 +1,3 @@
-lua << END
 local telescope = require('telescope')
 
 telescope.setup({
@@ -24,9 +23,8 @@ telescope.setup({
         "%.git/*"
     },
 })
-END
 
-:nnoremap <Leader>ff <cmd>Telescope find_files<cr>
-:nnoremap <Leader>fg <cmd>Telescope live_grep<cr>
-:nnoremap <Leader>fb <cmd>Telescope buffers<cr>
-:nnoremap <Leader>fs <cmd>Telescope grep_string<cr>
+vim.api.nvim_set_keymap('n', '<Leader>ff', '<cmd>Telescope find_files<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>fb', '<cmd>Telescope buffers<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>fs', '<cmd>Telescope grep_string<cr>', { noremap = true })

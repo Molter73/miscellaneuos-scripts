@@ -1,4 +1,3 @@
-lua << END
 require("nvim-lsp-installer").setup {
     automatic_installation = true
 }
@@ -36,6 +35,7 @@ local opts = {
 }
 
 require('rust-tools').setup(opts)
+
 nvim_lsp.yamlls.setup({})
 
 -- clangd setup
@@ -51,12 +51,12 @@ nvim_lsp.clangd.setup({
 })
 
 nvim_lsp.cmake.setup({})
-END
 
+-- lua setup
+require'lspconfig'.luau_lsp.setup{}
 
-" Setup Completion
-" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-lua << END
+-- Setup Completion
+-- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require('cmp')
 cmp.setup({
     -- Enable LSP snippets
@@ -88,5 +88,3 @@ cmp.setup({
     { name = 'buffer' },
   },
 })
-
-END

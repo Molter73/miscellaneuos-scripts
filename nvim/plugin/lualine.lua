@@ -1,4 +1,3 @@
-lua << END
 require('lualine').setup {
   options = {
     icons_enabled = false,
@@ -28,5 +27,3 @@ require('lualine').setup {
   tabline = {},
   extensions = {}
 }
-END
-
