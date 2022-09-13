@@ -1,4 +1,3 @@
-
 -- Options
 -- Enables the clipboard between Vim/Neovim and other applications.
 vim.cmd('set clipboard=unnamedplus')
@@ -107,7 +106,6 @@ end
 local molter = vim.api.nvim_create_augroup('MOLTER', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = molter,
-    buffer = 0,
     callback = trim_whitespace,
 })
 
