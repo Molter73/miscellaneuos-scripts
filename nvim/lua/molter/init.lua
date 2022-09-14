@@ -1,5 +1,6 @@
 require('molter.set')
 require('molter.keymaps')
+require('molter.vimplug')
 
 -- Autocommands
 local trim_whitespace = function()
