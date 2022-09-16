@@ -12,6 +12,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
@@ -65,7 +66,7 @@ nvim_lsp.clangd.setup({
 nvim_lsp.cmake.setup({})
 
 -- lua setup
-require 'lspconfig'.sumneko_lua.setup {
+nvim_lsp.sumneko_lua.setup {
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -88,6 +89,11 @@ require 'lspconfig'.sumneko_lua.setup {
         },
     },
 }
+
+-- golang setup
+nvim_lsp.gopls.setup({
+    on_attach = on_attach,
+})
 
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
