@@ -20,6 +20,25 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<Leader>f', vim.lsp.buf.formatting, opts)
 end
 
+local rust_attach = function(_, bufnr)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+
+    on_attach(_, bufnr)
+
+    vim.cmd([[
+        set makeprg=cargo\ build
+    ]])
+
+    vim.keymap.set('n', '<Leader>m', '<CMD>make<CR>', opts)
+
+    -- Format on save
+    local rust = vim.api.nvim_create_augroup('RUST', { clear = true })
+    vim.api.nvim_create_autocmd('BufWritePre', {
+        group = rust,
+        callback = vim.lsp.buf.formatting_sync
+    })
+end
+
 local nvim_lsp = require 'lspconfig'
 
 require('rust-tools').setup({
@@ -37,7 +56,7 @@ require('rust-tools').setup({
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
     server = {
         -- on_attach is a callback called when the language server attachs to the buffer
-        on_attach = on_attach,
+        on_attach = rust_attach,
         settings = {
             -- to enable rust-analyzer settings visit
             -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
@@ -66,8 +85,20 @@ nvim_lsp.clangd.setup({
 nvim_lsp.cmake.setup({})
 
 -- lua setup
+local lua_attach = function(_, bufnr)
+    on_attach(_, bufnr)
+
+
+    -- Format on save
+    local lua = vim.api.nvim_create_augroup('LUA', { clear = true })
+    vim.api.nvim_create_autocmd('BufWritePre', {
+        group = lua,
+        callback = vim.lsp.buf.formatting_sync
+    })
+end
+
 nvim_lsp.sumneko_lua.setup {
-    on_attach = on_attach,
+    on_attach = lua_attach,
     settings = {
         Lua = {
             runtime = {

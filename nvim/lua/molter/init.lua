@@ -23,3 +23,14 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     group = molter,
     callback = trim_whitespace,
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'markdown',
+    group = molter,
+    callback = function ()
+        vim.keymap.set('n', '<Leader>md', '<CMD>MarkdownPreview<CR>', {
+            noremap = true,
+            buffer = 0,
+        })
+    end
+})
