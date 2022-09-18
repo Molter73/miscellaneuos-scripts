@@ -2,6 +2,20 @@ require("nvim-lsp-installer").setup {
     automatic_installation = true
 }
 
+-- LSP specific autocommands
+local lspau = vim.api.nvim_create_augroup("LSP", { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+    group = lspau,
+    pattern = { 'lua', 'rust' },
+    callback = function()
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = lspau,
+            buffer = 0,
+            callback = vim.lsp.buf.formatting_sync,
+        })
+    end,
+})
+
 -- This function is used on every lsp server
 local on_attach = function(_, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -30,13 +44,6 @@ local rust_attach = function(_, bufnr)
     ]])
 
     vim.keymap.set('n', '<Leader>m', '<CMD>make<CR>', opts)
-
-    -- Format on save
-    local rust = vim.api.nvim_create_augroup('RUST', { clear = true })
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        group = rust,
-        callback = vim.lsp.buf.formatting_sync
-    })
 end
 
 local nvim_lsp = require 'lspconfig'
@@ -84,21 +91,8 @@ nvim_lsp.clangd.setup({
 
 nvim_lsp.cmake.setup({})
 
--- lua setup
-local lua_attach = function(_, bufnr)
-    on_attach(_, bufnr)
-
-
-    -- Format on save
-    local lua = vim.api.nvim_create_augroup('LUA', { clear = true })
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        group = lua,
-        callback = vim.lsp.buf.formatting_sync
-    })
-end
-
 nvim_lsp.sumneko_lua.setup {
-    on_attach = lua_attach,
+    on_attach = on_attach,
     settings = {
         Lua = {
             runtime = {
@@ -123,6 +117,11 @@ nvim_lsp.sumneko_lua.setup {
 
 -- golang setup
 nvim_lsp.gopls.setup({
+    on_attach = on_attach,
+})
+
+-- BASH setup x_x
+nvim_lsp.bashls.setup({
     on_attach = on_attach,
 })
 
