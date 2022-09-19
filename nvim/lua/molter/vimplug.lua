@@ -31,16 +31,16 @@ Plug('simrat39/rust-tools.nvim')
 -- Snippet engine
 Plug('hrsh7th/vim-vsnip')
 
--- Python jedi
-Plug('davidhalter/jedi-vim')
-
 -- Lualine
 Plug('nvim-lualine/lualine.nvim')
 
 -- Telescope
 Plug('nvim-lua/plenary.nvim')
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn[':TSUpdate']})
-Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = vim.fn['cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'] })
+Plug('nvim-treesitter/nvim-treesitter', { ['do'] = vim.fn[':TSUpdate'] })
+Plug('nvim-telescope/telescope-fzf-native.nvim',
+    { ['do'] = vim.fn[
+        'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+        ] })
 Plug('nvim-telescope/telescope.nvim')
 
 -- GitGutter

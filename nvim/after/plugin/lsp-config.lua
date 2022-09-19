@@ -125,6 +125,11 @@ nvim_lsp.bashls.setup({
     on_attach = on_attach,
 })
 
+-- Python setup
+nvim_lsp.jedi_language_server.setup({
+    on_attach = on_attach,
+})
+
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require('cmp')
