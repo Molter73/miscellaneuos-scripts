@@ -6,6 +6,9 @@ vim.cmd('call plug#begin()')
 -- Nightfly theme
 Plug('bluz71/vim-nightfly-guicolors')
 
+-- Catpuccin theme
+Plug('catppuccin/nvim', { ['as'] = 'catppuccin' })
+
 -- nvim LSP
 Plug('neovim/nvim-lspconfig')
 Plug('williamboman/nvim-lsp-installer')

@@ -27,10 +27,18 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'markdown',
     group = molter,
-    callback = function ()
+    callback = function()
         vim.keymap.set('n', '<Leader>md', '<CMD>MarkdownPreview<CR>', {
             noremap = true,
             buffer = 0,
         })
+    end
+})
+
+local yank_highlight = vim.api.nvim_create_augroup('YankHighlist', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = yank_highlight,
+    callback = function()
+        vim.highlight.on_yank { higroup = 'IncSearch', timeout = 100 }
     end
 })
