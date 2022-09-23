@@ -13,7 +13,7 @@ local trim_whitespace = function()
     local view_save = vim.fn.winsaveview()
     vim.cmd([[
         keeppatterns %s/\s\+$//e
-        keeppatterns %s/\n*\%$//
+        keeppatterns %s/\n*\%$//e
     ]])
     vim.fn.winrestview(view_save)
 end
