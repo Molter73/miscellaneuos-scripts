@@ -52,6 +52,9 @@ Plug('airblade/vim-gitgutter')
 -- Git Blamer
 Plug('APZelos/blamer.nvim')
 
+-- Fugitive
+Plug('tpope/vim-fugitive')
+
 -- Markdown preview
 Plug('iamcco/markdown-preview.nvim', { ['do'] = vim.fn['cd app && yarn install'] })
 
