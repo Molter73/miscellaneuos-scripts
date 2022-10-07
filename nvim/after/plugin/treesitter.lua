@@ -13,7 +13,11 @@ require('nvim-treesitter.configs').setup({
         'regex',
         'rust',
         'toml',
-    }
+    },
+
+    highlight = {
+        enable = true,
+    },
 })
 
 require('treesitter-context').setup({

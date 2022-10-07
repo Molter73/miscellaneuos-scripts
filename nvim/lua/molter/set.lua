@@ -18,18 +18,18 @@ vim.opt.cc = '80' -- Show at 80 column a border for good code style
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.expandtab = true -- Tabs are now 4 space wide
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 20
 vim.opt.signcolumn = 'yes'
 vim.opt.relativenumber = true
 vim.opt.ttyfast = true -- Speed up scrolling in Vim
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = '==>',
-    trail = '·',
-    precedes = '<',
-    extends = '>',
-    multispace = '·',
-    nbsp = '○',
+	tab = '==>',
+	trail = '·',
+	precedes = '<',
+	extends = '>',
+	multispace = '·',
+	nbsp = '○',
 }
 vim.opt.updatetime = 200
 vim.opt.hls = false

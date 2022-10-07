@@ -6,12 +6,16 @@ require("nvim-lsp-installer").setup {
 local lspau = vim.api.nvim_create_augroup("LSP", { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
     group = lspau,
-    pattern = { 'lua', 'rust' },
+    pattern = { 'lua', 'rust', 'go' },
     callback = function()
         vim.api.nvim_create_autocmd('BufWritePre', {
             group = lspau,
             buffer = 0,
-            callback = vim.lsp.buf.formatting_sync,
+            callback = function()
+                vim.lsp.buf.format({
+                    async = false,
+                })
+            end
         })
     end,
 })
