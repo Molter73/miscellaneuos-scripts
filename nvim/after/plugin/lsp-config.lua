@@ -35,7 +35,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<Leader>f', vim.lsp.buf.formatting, opts)
+    vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, opts)
 end
 
 local rust_attach = function(_, bufnr)
