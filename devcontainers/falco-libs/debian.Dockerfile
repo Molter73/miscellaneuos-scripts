@@ -1,8 +1,5 @@
 FROM debian:buster
 
-ARG FALCO_DIR
-ENV FALCO_DIR=$FALCO_DIR
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -46,3 +43,6 @@ RUN mkdir -p /etc/apt/keyrings && \
     apt-get install -y docker-ce-cli
 
 COPY compile-falco.sh /usr/bin/
+
+ARG FALCO_DIR
+ENV FALCO_DIR=$FALCO_DIR
