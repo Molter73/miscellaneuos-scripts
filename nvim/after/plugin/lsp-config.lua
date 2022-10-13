@@ -84,12 +84,32 @@ require('rust-tools').setup({
 nvim_lsp.yamlls.setup({})
 
 -- clangd setup
+local root_pattern = nvim_lsp.util.root_pattern('.git')
+
+local function project_name_to_container_name()
+    -- Turn the name of the current file into the name of an expected container, assuming that
+    -- the container running/building this file is named the same as the basename of the project
+    -- that the file is in
+    --
+    -- The name of the current buffer
+    local bufname = vim.api.nvim_buf_get_name(0)
+
+    -- Turned into a filename
+    local filename = nvim_lsp.util.path.is_absolute(bufname) and bufname or
+        nvim_lsp.util.path.join(vim.loop.cwd(), bufname)
+
+    -- Then the directory of the project
+    local project_dirname = root_pattern(filename) or nvim_lsp.util.path.dirname(filename)
+
+    -- And finally perform what is essentially a `basename` on this directory
+    return vim.fn.fnamemodify(nvim_lsp.util.find_git_ancestor(project_dirname), ':t')
+end
+
 nvim_lsp.clangd.setup({
     on_attach = on_attach,
     cmd = {
-        "clangd",
-        "--background-index",
-        "--clang-tidy",
+        "cclangd",
+        project_name_to_container_name(),
     },
 })
 

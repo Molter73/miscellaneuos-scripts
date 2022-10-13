@@ -24,15 +24,16 @@ vim.opt.relativenumber = true
 vim.opt.ttyfast = true -- Speed up scrolling in Vim
 vim.opt.list = true
 vim.opt.listchars = {
-	tab = '==>',
-	trail = '·',
-	precedes = '<',
-	extends = '>',
-	multispace = '·',
-	nbsp = '○',
+    tab = '==>',
+    trail = '·',
+    precedes = '<',
+    extends = '>',
+    multispace = '·',
+    nbsp = '○',
 }
 vim.opt.updatetime = 200
 vim.opt.hls = false
 vim.g.mapleader = ' '
 vim.opt.background = 'dark'
 vim.opt.termguicolors = true
+vim.opt.spell = true
