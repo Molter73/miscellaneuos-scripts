@@ -61,4 +61,7 @@ Plug('iamcco/markdown-preview.nvim', { ['do'] = vim.fn['cd app && yarn install']
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = vim.fn[':TSUpdate'] })
 Plug('nvim-treesitter/nvim-treesitter-context')
 
+-- duck!
+Plug('tamton-aquib/duck.nvim')
+
 vim.cmd('call plug#end()')
