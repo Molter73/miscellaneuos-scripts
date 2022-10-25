@@ -154,6 +154,11 @@ nvim_lsp.jedi_language_server.setup({
     on_attach = on_attach,
 })
 
+-- diagnostic-ls
+nvim_lsp.diagnosticls.setup({
+    filetypes = { 'python' }
+})
+
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require('cmp')

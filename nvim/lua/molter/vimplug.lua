@@ -48,12 +48,6 @@ Plug('nvim-telescope/telescope.nvim')
 -- GitGutter
 Plug('airblade/vim-gitgutter')
 
--- Git Blamer
-Plug('APZelos/blamer.nvim')
-
--- Fugitive
-Plug('tpope/vim-fugitive')
-
 -- Markdown preview
 Plug('iamcco/markdown-preview.nvim', { ['do'] = vim.fn['cd app && yarn install'] })
 
@@ -62,6 +56,6 @@ Plug('nvim-treesitter/nvim-treesitter', { ['do'] = vim.fn[':TSUpdate'] })
 Plug('nvim-treesitter/nvim-treesitter-context')
 
 -- duck!
-Plug('tamton-aquib/duck.nvim')
+-- Plug('tamton-aquib/duck.nvim')
 
 vim.cmd('call plug#end()')
