@@ -2,8 +2,6 @@ require('molter.set')
 require('molter.keymaps')
 require('molter.vimplug')
 
-vim.opt.runtimepath:append("~/go/src/github.com/tamton-aquib/duck.nvim")
-
 -- Autocommands
 local trim_whitespace = function()
     local ft = vim.bo.filetype
