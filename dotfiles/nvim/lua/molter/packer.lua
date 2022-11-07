@@ -1,0 +1,53 @@
+return require('packer').startup(function(use)
+    use 'wbthomason/packer.nvim'
+
+    -- Catpuccin theme
+    use { 'catppuccin/nvim', as = 'catppuccin' }
+
+    -- nvim LSP
+    use { 'neovim/nvim-lspconfig' }
+    use { 'williamboman/nvim-lsp-installer' }
+
+    -- Completion framework
+    use { 'hrsh7th/nvim-cmp' }
+
+    -- LSP completion source for nvim-cmp
+    use { 'hrsh7th/cmp-nvim-lsp' }
+
+    -- Snippet completion source for nvim-cmp
+    use { 'hrsh7th/cmp-vsnip' }
+
+    -- Other usefull completion sources
+    use { 'hrsh7th/cmp-path' }
+    use { 'hrsh7th/cmp-buffer' }
+
+    -- See hrsh7th's other plugins for more completion sources!
+
+    -- To enable more of the features of rust-analyzer, such as inlay hints and more!
+    use { 'simrat39/rust-tools.nvim' }
+
+    -- Snippet engine
+    use { 'hrsh7th/vim-vsnip' }
+
+    -- Lualine
+    use { 'nvim-lualine/lualine.nvim' }
+
+    -- Telescope
+    use {
+        'nvim-telescope/telescope.nvim', branch = '0.1.x',
+        requires = { { 'nvim-lua/plenary.nvim' } }
+    }
+
+    -- GitGutter
+    use { 'airblade/vim-gitgutter' }
+
+    -- Markdown preview
+    use { 'iamcco/markdown-preview.nvim', { ['do'] = vim.fn['cd app && yarn install'] } }
+
+    -- treesitter
+    use { 'nvim-treesitter/nvim-treesitter', { ['do'] = vim.fn[':TSUpdate'] } }
+    use { 'nvim-treesitter/nvim-treesitter-context' }
+
+    -- duck!
+    use { 'tamton-aquib/duck.nvim' }
+end)
