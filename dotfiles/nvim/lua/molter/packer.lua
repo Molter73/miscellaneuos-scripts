@@ -42,10 +42,10 @@ return require('packer').startup(function(use)
     use { 'airblade/vim-gitgutter' }
 
     -- Markdown preview
-    use { 'iamcco/markdown-preview.nvim', { ['do'] = vim.fn['cd app && yarn install'] } }
+    use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install' }
 
     -- treesitter
-    use { 'nvim-treesitter/nvim-treesitter', { ['do'] = vim.fn[':TSUpdate'] } }
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
     -- duck!
