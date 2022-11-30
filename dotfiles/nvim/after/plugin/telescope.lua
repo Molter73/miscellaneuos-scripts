@@ -18,7 +18,7 @@ telescope.setup({
             "--smart-case"
         },
         file_ignore_patterns = {
-            "%.git/*"
+            "^.git/"
         },
     },
 })
