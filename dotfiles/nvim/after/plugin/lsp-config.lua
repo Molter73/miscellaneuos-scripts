@@ -6,7 +6,7 @@ require("nvim-lsp-installer").setup {
 local lspau = vim.api.nvim_create_augroup("LSP", { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
     group = lspau,
-    pattern = { 'lua', 'rust', 'go' },
+    pattern = { 'lua', 'rust', 'go', 'haskell' },
     callback = function()
         vim.api.nvim_create_autocmd('BufWritePre', {
             group = lspau,
@@ -158,6 +158,11 @@ nvim_lsp.jedi_language_server.setup({
 nvim_lsp.diagnosticls.setup({
     filetypes = { 'python' }
 })
+
+-- haskell language server
+nvim_lsp.hls.setup {
+    on_attach = on_attach,
+}
 
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration

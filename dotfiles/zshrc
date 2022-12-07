@@ -144,3 +144,5 @@ export PATH="$PATH:/Users/mmoltras/bin"
 if [[ -f "${HOME}/.minikube-completion" ]]; then
     source "${HOME}/.minikube-completion"
 fi
+
+[ -f "${HOME}/.ghcup/env" ] && source "${HOME}/.ghcup/env" # ghcup-env
