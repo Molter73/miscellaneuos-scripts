@@ -14,6 +14,7 @@ require('nvim-treesitter.configs').setup({
         'regex',
         'rust',
         'toml',
+        'yaml',
     },
 
     highlight = {
