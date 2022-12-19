@@ -55,4 +55,7 @@ return require('packer').startup(function(use)
 
     -- duck!
     use { 'tamton-aquib/duck.nvim' }
+
+    -- undotree
+    use { 'mbbill/undotree' }
 end)
