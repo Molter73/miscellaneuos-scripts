@@ -154,11 +154,6 @@ nvim_lsp.jedi_language_server.setup({
     on_attach = on_attach,
 })
 
--- diagnostic-ls
-nvim_lsp.diagnosticls.setup({
-    filetypes = { 'python' }
-})
-
 -- haskell language server
 nvim_lsp.hls.setup {
     on_attach = on_attach,

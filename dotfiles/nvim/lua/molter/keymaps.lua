@@ -11,3 +11,6 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true })
 -- Navigate quickfixes
 vim.keymap.set('n', ']q', '<cmd>cn<CR>', { noremap = true })
 vim.keymap.set('n', '[q', '<cmd>cp<CR>', { noremap = true })
+
+-- pop-up diagnostics
+vim.keymap.set('n', '<Leader>q', vim.diagnostic.open_float, { noremap = true })

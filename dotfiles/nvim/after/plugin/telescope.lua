@@ -23,8 +23,11 @@ telescope.setup({
     },
 })
 
-vim.keymap.set('n', '<Leader>ff', '<cmd>Telescope find_files<cr>', { noremap = true })
-vim.keymap.set('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>', { noremap = true })
-vim.keymap.set('n', '<Leader>fb', '<cmd>Telescope buffers<cr>', { noremap = true })
-vim.keymap.set('n', '<Leader>fs', '<cmd>Telescope grep_string<cr>', { noremap = true })
-vim.keymap.set('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>', { noremap = true })
+local builtins = require('telescope.builtin')
+
+vim.keymap.set('n', '<Leader>ff', builtins.find_files, { noremap = true })
+vim.keymap.set('n', '<Leader>fg', builtins.live_grep, { noremap = true })
+vim.keymap.set('n', '<Leader>fb', builtins.buffers, { noremap = true })
+vim.keymap.set('n', '<Leader>fs', builtins.grep_string, { noremap = true })
+vim.keymap.set('n', '<Leader>fh', builtins.help_tags, { noremap = true })
+vim.keymap.set('n', '<Leader>fd', builtins.diagnostics, { noremap = true })
