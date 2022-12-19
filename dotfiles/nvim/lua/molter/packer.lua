@@ -58,4 +58,10 @@ return require('packer').startup(function(use)
 
     -- undotree
     use { 'mbbill/undotree' }
+
+    -- fidget
+    use { 'j-hui/fidget.nvim',
+        config = function()
+            require('fidget').setup({})
+        end }
 end)
