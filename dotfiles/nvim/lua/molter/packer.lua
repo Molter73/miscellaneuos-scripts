@@ -43,8 +43,8 @@ return require('packer').startup(function(use)
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
-    -- GitGutter
-    use { 'airblade/vim-gitgutter' }
+    -- gitsigns
+    use { 'lewis6991/gitsigns.nvim' }
 
     -- Markdown preview
     use { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install' }
