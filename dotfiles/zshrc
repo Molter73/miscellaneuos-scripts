@@ -117,6 +117,9 @@ if [[ -f "${HOME}/.infra" ]]; then
     source "${HOME}/.infra"
 fi
 
+# Use buildkit with docker
+export DOCKER_BUILDKIT=1
+
 # Add workflow scripts to path
 export PATH="$PATH:${HOME}/go/src/github.com/stackrox/workflow/bin"
 

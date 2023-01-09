@@ -53,9 +53,6 @@ return require('packer').startup(function(use)
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
-    -- duck!
-    use { 'tamton-aquib/duck.nvim' }
-
     -- undotree
     use { 'mbbill/undotree' }
 
