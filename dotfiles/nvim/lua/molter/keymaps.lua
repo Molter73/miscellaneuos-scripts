@@ -14,3 +14,6 @@ vim.keymap.set('n', '[q', '<cmd>cp<CR>', { noremap = true })
 
 -- pop-up diagnostics
 vim.keymap.set('n', '<Leader>q', vim.diagnostic.open_float, { noremap = true })
+
+-- Trim line endings on demmand
+vim.keymap.set('n', '<Leader>tt', require('molter.trimmers').newlines, { noremap = true })

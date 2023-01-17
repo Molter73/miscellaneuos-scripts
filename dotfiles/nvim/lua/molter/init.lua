@@ -3,25 +3,10 @@ require('molter.keymaps')
 require('molter.packer')
 
 -- Autocommands
-local trim_whitespace = function()
-    local ft = vim.bo.filetype
-
-    if ft == 'diff' or ft == 'binary' then
-        return
-    end
-
-    local view_save = vim.fn.winsaveview()
-    vim.cmd([[
-        keeppatterns %s/\s\+$//e
-        keeppatterns %s/\n*\%$//e
-    ]])
-    vim.fn.winrestview(view_save)
-end
-
 local molter = vim.api.nvim_create_augroup('MOLTER', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = molter,
-    callback = trim_whitespace,
+    callback = require('molter.trimmers').whitespace,
 })
 
 vim.api.nvim_create_autocmd('FileType', {
