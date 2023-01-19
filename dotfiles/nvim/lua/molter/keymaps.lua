@@ -1,19 +1,19 @@
 -- Global Keymaps
 -- netrw
-vim.keymap.set('n', '<Leader>ej', '<cmd>Ex<CR>', { noremap = true })
-vim.keymap.set('n', '<Leader>ev', '<cmd>Vex<CR>', { noremap = true })
-vim.keymap.set('n', '<Leader>eh', '<cmd>Sex<CR>', { noremap = true })
+vim.keymap.set('n', '<Leader>ej', '<cmd>Ex<CR>', { noremap = true, desc = 'Go to net-rw' })
+vim.keymap.set('n', '<Leader>ev', '<cmd>Vex<CR>', { noremap = true, desc = 'Open net-rw in new vertical split' })
+vim.keymap.set('n', '<Leader>eh', '<cmd>Sex<CR>', { noremap = true, desc = 'Open net-rw in new horizontal split' })
 
 -- Page up and down with auto-center
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true })
 
 -- Navigate quickfixes
-vim.keymap.set('n', ']q', '<cmd>cn<CR>', { noremap = true })
-vim.keymap.set('n', '[q', '<cmd>cp<CR>', { noremap = true })
+vim.keymap.set('n', ']q', '<cmd>cn<CR>', { noremap = true, desc = 'Next quickfix' })
+vim.keymap.set('n', '[q', '<cmd>cp<CR>', { noremap = true, desc = 'Previous quickfix' })
 
 -- pop-up diagnostics
-vim.keymap.set('n', '<Leader>q', vim.diagnostic.open_float, { noremap = true })
+vim.keymap.set('n', '<Leader>q', vim.diagnostic.open_float, { noremap = true, desc = 'Pop-up diagnostics' })
 
 -- Trim line endings on demmand
-vim.keymap.set('n', '<Leader>tt', require('molter.trimmers').newlines, { noremap = true })
+vim.keymap.set('n', '<Leader>tt', require('molter.trimmers').newlines, { noremap = true, desc = 'Trim line endings' })

@@ -40,7 +40,25 @@ return require('packer').startup(function(use)
 
     -- null-ls
     use { 'jose-elias-alvarez/null-ls.nvim',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+        requires = { { 'nvim-lua/plenary.nvim' } },
+        config = function()
+            local null_ls = require('null-ls')
+
+            null_ls.setup({
+                sources = {
+                    -- diagnostics
+                    null_ls.builtins.diagnostics.actionlint,
+                    null_ls.builtins.diagnostics.ansiblelint,
+                    null_ls.builtins.diagnostics.flake8,
+                    null_ls.builtins.diagnostics.hadolint,
+                    null_ls.builtins.diagnostics.zsh,
+
+                    -- formatters
+                    null_ls.builtins.formatting.autopep8,
+                    null_ls.builtins.formatting.shfmt,
+                }
+            })
+        end
     }
 
     -- gitsigns
@@ -54,11 +72,22 @@ return require('packer').startup(function(use)
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
     -- undotree
-    use { 'mbbill/undotree' }
+    use { 'mbbill/undotree',
+        config = function()
+            vim.g.undotree_WindowLayout = 2
+            vim.keymap.set('n', '<C-S-u>', '<cmd>UndotreeToggle<cr>', { noremap = true, desc = 'Open undotree' })
+        end }
 
     -- fidget
     use { 'j-hui/fidget.nvim',
         config = function()
             require('fidget').setup({})
         end }
+
+    -- which-key
+    use { 'folke/which-key.nvim',
+        config = function()
+            require('which-key').setup()
+        end
+    }
 end)
