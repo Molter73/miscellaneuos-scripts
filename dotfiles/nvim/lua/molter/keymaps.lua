@@ -17,3 +17,8 @@ vim.keymap.set('n', '<Leader>q', vim.diagnostic.open_float, { noremap = true, de
 
 -- Trim line endings on demmand
 vim.keymap.set('n', '<Leader>tt', require('molter.trimmers').newlines, { noremap = true, desc = 'Trim line endings' })
+
+-- Format JSON with jq
+local jq = require('molter.jq')
+vim.keymap.set('n', '<Leader>jq', jq.format_json, { noremap = true, desc = 'Format JSON file' })
+vim.keymap.set('n', '<Leader>jc', jq.minify_json, { noremap = true, desc = 'Minify JSON file' })
