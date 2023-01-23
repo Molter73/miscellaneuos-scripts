@@ -27,7 +27,7 @@ local execute_jq = function(args)
     end
 
     vim.fn.jobstart({ 'jq', args, json },
-        { stdout_buffered = true, on_stdout = replace_data, on_stderr = print_error })
+        { stdout_buffered = true, stderr_buffered = true, on_stdout = replace_data, on_stderr = print_error })
 end
 
 M.format_json = function()

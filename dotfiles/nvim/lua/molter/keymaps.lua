@@ -22,3 +22,4 @@ vim.keymap.set('n', '<Leader>tt', require('molter.trimmers').newlines, { noremap
 local jq = require('molter.jq')
 vim.keymap.set('n', '<Leader>jq', jq.format_json, { noremap = true, desc = 'Format JSON file' })
 vim.keymap.set('n', '<Leader>jc', jq.minify_json, { noremap = true, desc = 'Minify JSON file' })
+vim.keymap.set('n', '<Leader>jj', '<cmd>set filetype=json<CR>', { noremap = true, desc = 'Set filetype to JSON' })
