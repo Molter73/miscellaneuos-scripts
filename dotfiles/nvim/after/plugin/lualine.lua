@@ -1,3 +1,18 @@
+local relative_path = function()
+    local starts_with = function(str, start)
+        return string.sub(str, 1, #start) == start
+    end
+
+    local path = vim.fn.expand("%:p")
+    local cwd = vim.fn.getcwd()
+
+    if starts_with(path, cwd) then
+        return string.sub(path, #cwd + 2, -1)
+    else
+        return path
+    end
+end
+
 require('lualine').setup {
     options = {
         icons_enabled = false,
@@ -19,7 +34,7 @@ require('lualine').setup {
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { 'filename' },
+        lualine_c = { relative_path },
         lualine_x = { 'location' },
         lualine_y = {},
         lualine_z = {}
