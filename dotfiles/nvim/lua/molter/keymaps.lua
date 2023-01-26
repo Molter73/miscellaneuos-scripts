@@ -23,3 +23,9 @@ local jq = require('molter.jq')
 vim.keymap.set('n', '<Leader>jq', jq.format_json, { noremap = true, desc = 'Format JSON file' })
 vim.keymap.set('n', '<Leader>jc', jq.minify_json, { noremap = true, desc = 'Minify JSON file' })
 vim.keymap.set('n', '<Leader>jj', '<cmd>set filetype=json<CR>', { noremap = true, desc = 'Set filetype to JSON' })
+
+-- Simplified window navigation
+vim.keymap.set('n', '<S-h>', '<C-w>h', { noremap = true, desc = 'Jump to left window' })
+vim.keymap.set('n', '<S-j>', '<C-w>j', { noremap = true, desc = 'Jump to upper window' })
+vim.keymap.set('n', '<S-k>', '<C-w>k', { noremap = true, desc = 'Jump to lower window' })
+vim.keymap.set('n', '<S-l>', '<C-w>l', { noremap = true, desc = 'Jump to right window' })

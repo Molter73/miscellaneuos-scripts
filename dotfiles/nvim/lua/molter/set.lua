@@ -12,6 +12,7 @@ vim.opt.inccommand = 'split' -- Show replacements in a split screen
 vim.opt.mouse = 'a' -- Allow to use the mouse in the editor
 vim.opt.number = true -- Shows the line numbers
 vim.opt.splitbelow = true -- Change the split screen behavior
+vim.opt.splitright = true
 vim.opt.title = true -- Show file title
 vim.opt.wildmenu = true -- Show a more advance menu
 vim.opt.cc = '80' -- Show at 80 column a border for good code style
