@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 
 # The name of the container to run `clangd` in must be passed as the first and only argument
 #
@@ -7,14 +7,15 @@
 [ "$#" -ne 1 ] && echo "Container name required as first and only argument" >&2 && exit 1
 
 NAME=$1
+NPROC="$(nproc)"
 
 # Verify that a contianer by this name actually exists, and is running
 if [[ "$(kubectl get -l app="$NAME-builder" -o=jsonpath='{.items[0].status.phase}' pods)" == "Running" ]]; then
     pod="$(kubectl get -l app="$NAME-builder" -o=jsonpath='{.items[0].metadata.name}' pods)"
-    kubectl exec -i "$pod" -- clangd --background-index --clang-tidy 2>/dev/null
+    kubectl exec -i "$pod" -- clangd -j "${NPROC}" --background-index --clang-tidy 2>/dev/null
 elif [ -z "$(docker ps -q -f name="$NAME" -f status=running)" ]; then
-    clangd --background-index --clang-tidy
+    clangd --background-index --clang-tidy -j "${NPROC}"
 else
     # Important part here is both the '-i' and the redirection of STDERR
-    docker exec -i "$NAME" /usr/bin/clangd --background-index --clang-tidy 2>/dev/null
+    docker exec -i "$NAME" /usr/bin/clangd -j "${NPROC}" --background-index --clang-tidy 2>/dev/null
 fi
