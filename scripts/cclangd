@@ -9,11 +9,8 @@
 NAME=$1
 NPROC="$(nproc)"
 
-# Verify that a contianer by this name actually exists, and is running
-if [[ "$(kubectl get -l app="$NAME-builder" -o=jsonpath='{.items[0].status.phase}' pods)" == "Running" ]]; then
-    pod="$(kubectl get -l app="$NAME-builder" -o=jsonpath='{.items[0].metadata.name}' pods)"
-    kubectl exec -i "$pod" -- clangd -j "${NPROC}" --background-index --clang-tidy 2>/dev/null
-elif [ -z "$(docker ps -q -f name="$NAME" -f status=running)" ]; then
+# Verify that a container by this name actually exists, and is running
+if [ -z "$(docker ps -q -f name="$NAME" -f status=running)" ]; then
     clangd --background-index --clang-tidy -j "${NPROC}"
 else
     # Important part here is both the '-i' and the redirection of STDERR
